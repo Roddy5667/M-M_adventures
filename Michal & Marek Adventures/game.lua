@@ -3,17 +3,24 @@
 -- game.lua
 --
 -----------------------------------------------------------------------------------------
+
+---to jest plik z tym kodem który odpala się jako pierwszy, normalnie powinno tu być tak mało rzeczy jak to możliwe
+---ups
+
+
+---te trzy reczy są potrzebne bo pierwsza pozwala nam robić cokolwiek a druga widgety. widgety są przydatne
 local composer = require( "composer" )
 local widget = require( "widget" )
 local scene = composer.newScene()
 
+---co robić kiedy funkcja sie pokazuje
 function scene:show( event )
 
     local sceneGroup = self.view
     local phase = event.phase
     if ( phase == "did" ) then
         
----zdobycie czasu
+---zdobycie czasu z telefonu
 time = (os.date("%H"))
 local time = tonumber(time)
 ---graficzki
@@ -25,7 +32,7 @@ if (time >= 7 and time <= 18) then
     bg=display.newImageRect("game/res/bg/Day_city.png", 600, 400)
     bg.x = display.contentCenterX
     bg.y = display.contentCenterY
-
+---graficzki których godzina nie jest między 7 i 18
 else
     bg=display.newImageRect("game/res/bg/bg.png", 600, 400)
     bg.x = display.contentCenterX
@@ -36,6 +43,7 @@ else
     bg.y = display.contentCenterY
 
 end
+---koledzy to my, a fade to ciemny gradient xd
 local bg=display.newImageRect("game/res/bg/fade.png", 600, 350)
 bg.x = display.contentCenterX
 bg.y = display.contentCenterY
@@ -49,6 +57,7 @@ bg.y = display.contentCenterY
 ---tekst
 local s = 0
 local score=display.newText(s, display.contentCenterX, 150, native.systemFont, 30)
+---ta część jest do odczytania czy jest zapisany wynik
 local path = system.pathForFile( "data.txt", system.DocumentsDirectory )
 local file, errorString = io.open( path, "r" )
     if not file then
@@ -56,6 +65,7 @@ local file, errorString = io.open( path, "r" )
     else
         for line in file:lines() do
             print( line )
+---jeżeli jest to wyświetl
             s = line
             score.text =(s)
         end
@@ -72,11 +82,11 @@ else
     score:setFillColor(265, 265, 265)
 end
 
----wyświetlanie guziczka
+---wyświetlanie (podłożenia?) guziczka
 local klikaczwhite = display.newImageRect("game/res/ui/whitewidget.png", 275, 110)
 klikaczwhite.x = display.contentCenterX
 klikaczwhite.y = 230
-
+---tooo jest funkcja która robi grę, wszystkiego indziej mogłoby nie być xD
 local function mainButtonListener( event )
     tekst.text = "Ilość mońków:"
     s = s+1
@@ -165,7 +175,7 @@ file = nil
             file:write( saveData )
             io.close( file )
         end
----powrót do gry
+---powrót do gry, usuń cały syf
         display.remove(dark)
         display.remove(widget)
         display.remove(back)
@@ -177,7 +187,8 @@ file = nil
 ---n    owy klikacz po resecie
         klikacz:setEnabled(true)
     end    
-    back = widget.newButton(
+---funkcje guziczków, po naciśnięciu idź do funkcji koło onPress
+    local back = widget.newButton(
         {
             width = 25,
             height = 25,
@@ -313,6 +324,8 @@ adventure_button:addEventListener( "tap", tapEx )
 adventure_button.alpha = 0.8
 
 ---zega YEIIEWJUdiWJISOSOSDKjuh
+
+---działający zegar, powiedział nieco mniej entuzjastycnie marek
 tick = 0
 --[[
 local function bought()
